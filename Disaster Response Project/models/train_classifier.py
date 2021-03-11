@@ -5,6 +5,7 @@ import numpy as np
 import re
 from sqlalchemy import create_engine
 import pickle
+import time
 
 from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.model_selection import train_test_split
@@ -222,15 +223,23 @@ def main():
         X, Y, category_names = load_data(database_filepath)
         X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
         
-        print('Building model...')
+        start = time.time()
+        print('Building model...Started at:-', time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(start)))        
         model = build_model()
-        
-        print('Training model...')
+        end = time.time()
+        print('Building model completed at: {}. It took: {} seconds'.format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(end)),  round((end - start), 2)))       
+        start = time.time()
+        print('Training model...Started at:-', time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(start)))
         model.fit(X_train, Y_train)
+        end = time.time()
+        print('Training model completed at: {}. It took: {} seconds'.format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(end)),  round((end - start), 2)))
         
-        print('Evaluating model...')
+        start = time.time()
+        print('Evaluating model...Started at:-', time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(start)))
         evaluate_model(model, X_test, Y_test, category_names)
-
+        end = time.time()
+        print('Evaluating model completed at: {}. It took: {} seconds'.format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(end)),  round((end - start), 2)))
+        
         print('Saving model...\n    MODEL: {}'.format(model_filepath))
         save_model(model, model_filepath)
 
