@@ -60,7 +60,6 @@ def load_data(database_filepath, table_name = 'Disaster_response'):
     
     return X, y, category_names
 
-
 def tokenize(text, url_place_holder_string="urlplaceholder"):
     
     '''
@@ -89,10 +88,54 @@ def tokenize(text, url_place_holder_string="urlplaceholder"):
     final_tokens = [WordNetLemmatizer().lemmatize(w).lower().strip() for w in tokens]
     return final_tokens
 
+#Build a custom transformer to extract the starting verb of a sentence
+class StartingVerbExtractor(BaseEstimator, TransformerMixin):
+    
+    """
+    Starting Verb Extractor class    
+    It extract the starting verb of a sentence and creates a new feature for the ML classifier
+    
+    """
+    def starting_verb(self, text):
+        sentence_list = nltk.sent_tokenize(text)
+        for sentence in sentence_list:
+            pos_tags = nltk.pos_tag(tokenize(sentence))
+            first_word, first_tag = pos_tags[0]
+            if first_tag in ['VB', 'VBP'] or first_word == 'RT':
+                return True
+        return False
+
+    # Given it is a tranformer we can return the self 
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        X_tagged = pd.Series(X).apply(self.starting_verb)
+        return pd.DataFrame(X_tagged)
 
 def build_model():
-    pass
+    """
+    Build a Machine learning pipeline
+    
+    Output:
+        A Machine Learning Pipeline that process input text messages and apply a classifier.
+        
+    """
+    pipeline = Pipeline([
+        ('features', FeatureUnion([
 
+            ('text_pipeline', Pipeline([
+                ('count_vectorizer', CountVectorizer(tokenizer=tokenize)),
+                ('tfidf_transformer', TfidfTransformer())
+            ])),
+
+            ('starting_verb_transformer', StartingVerbExtractor())
+        ])),
+
+        ('classifier', MultiOutputClassifier(AdaBoostClassifier()))
+    ])
+
+    return pipeline
 
 def evaluate_model(model, X_test, Y_test, category_names):
     pass
