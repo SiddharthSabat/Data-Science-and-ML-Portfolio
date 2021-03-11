@@ -1,8 +1,64 @@
-import sys
+#import Libraries
+import pandas as pd
+import numpy as np
+import re
+from sqlalchemy import create_engine
+import pickle
+
+from sklearn.pipeline import Pipeline, FeatureUnion
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report, f1_score, make_scorer
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import fbeta_score, make_scorer
+from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier, AdaBoostClassifier
+from sklearn.model_selection import GridSearchCV
+from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
+from sklearn.multioutput import MultiOutputClassifier
+from sklearn.base import BaseEstimator,TransformerMixin
+from scipy.stats import gmean
+
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+nltk.download(['punkt', 'wordnet', 'averaged_perceptron_tagger'])
 
 
-def load_data(database_filepath):
-    pass
+def load_data(database_filepath, table_name = 'Disaster_response'):
+    
+    """
+    Load Data from the Database and Extract X and y variables for the modelling
+    
+    Inputs:
+        database_filepath -> Path to SQLite destination database (In our case, it is: DisasterResponse.db)
+    Output:
+        X -> a dataframe containing the feature variables
+        y -> a dataframe containing labels
+        category_names -> List of category names
+    """    
+    
+    # load data from database
+    engine = create_engine('sqlite:///' + database_filepath)
+    
+    df = pd.read_sql_table(table_name,engine)
+
+    engine = create_engine('sqlite:///' + database_filepath)
+    df = pd.read_sql_table(table_name,engine)
+    
+    #Lets drop the child_alone column since it has all zero values
+    df = df.drop(['child_alone'],axis=1)
+    
+    # Since the related column has values either 1 or 2 and has 188 values stored as 2,
+    #hence before we proceed lets replace these values with 1 to consder it as a valid response.
+    df['related']=df['related'].map(lambda x: 1 if x == 2 else x)
+    
+    # Extract X and y variables from the data for the modelling
+    X = df['message']
+    y = df.iloc[:,4:]
+    
+    # Create category_names with the y column names for visualization purpose
+    category_names = y.columns 
+    
+    return X, y, category_names
 
 
 def tokenize(text):
