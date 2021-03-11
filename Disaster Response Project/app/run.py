@@ -49,7 +49,7 @@ def tokenize(text):
 
 # load data
 table_name = 'Disaster_response'
-engine = create_engine('sqlite:///DisasterResponse.db')
+engine = engine = create_engine('sqlite:///../data/DisasterResponse.db')
 df = pd.read_sql_table(table_name,engine)
 
 
@@ -67,6 +67,8 @@ def index():
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
     
+    category_names = df.iloc[:,4:].columns
+    category_boolean = (df.iloc[:,4:] != 0).sum().values
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
     graphs = [
@@ -85,6 +87,26 @@ def index():
                 },
                 'xaxis': {
                     'title': "Genre"
+                }
+            }
+        },
+            # GRAPH 2 - category graph    
+        {
+            'data': [
+                Bar(
+                    x=category_names,
+                    y=category_boolean
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Message Categories',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Category",
+                    'tickangle': 35
                 }
             }
         }
@@ -117,7 +139,7 @@ def go():
 
 
 def main():
-    app.run(host='0.0.0.0', port=3001, debug=True)
+    app.run(host='localhost', port=3001, debug=True)
 
 
 if __name__ == '__main__':
