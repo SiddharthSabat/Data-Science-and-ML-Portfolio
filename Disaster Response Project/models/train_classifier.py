@@ -61,8 +61,33 @@ def load_data(database_filepath, table_name = 'Disaster_response'):
     return X, y, category_names
 
 
-def tokenize(text):
-    pass
+def tokenize(text, url_place_holder_string="urlplaceholder"):
+    
+    '''
+    Tokenize the input string
+    
+    Input:
+        text -> Text message which needs to be tokenized
+    Output:
+        clean_tokens -> List of tokens extracted from the input text message
+    '''
+    
+    # Replace all urls with a default urlplaceholder string
+    url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+    
+    # find all urls from the input text 
+    detected_urls = re.findall(url_regex, text)
+    
+    # Replace the url with the default url placeholder string
+    for url in detected_urls:
+        text = text.replace(url, url_place_holder_string)
+
+    # Extract word tokens from the input text
+    tokens = word_tokenize(text)
+    
+    #Lemmatize to remove different inflected forms of a word so they can be analysed as a single item
+    final_tokens = [WordNetLemmatizer().lemmatize(w).lower().strip() for w in tokens]
+    return final_tokens
 
 
 def build_model():
