@@ -23,7 +23,6 @@ from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 nltk.download(['punkt', 'wordnet', 'averaged_perceptron_tagger'])
 
-
 def load_data(database_filepath, table_name = 'Disaster_response'):
     
     """
@@ -183,8 +182,8 @@ def evaluate_model(model, X_test, Y_test, category_names):
     
     This function applies a ML pipeline to a test set and prints out the model performance (accuracy and f1score)
     
-    Arguments:
-        pipeline -> A valid scikit ML Pipeline
+    Inputs:
+        model -> A valid scikit ML Pipeline
         X_test -> Test features
         Y_test -> Test labels
         category_names -> label names (multi-output)
@@ -203,12 +202,18 @@ def evaluate_model(model, X_test, Y_test, category_names):
     for column in Y_test.columns:
         print('Model Performance with Category: {}'.format(column))
         print(classification_report(Y_test[column],Y_pred[column]))
-    
-
 
 def save_model(model, model_filepath):
-    pass
-
+    
+    """
+    Save the model
+    This function saves trained model as Pickle file
+    
+    Inputs:
+        model -> GridSearchCV or Scikit Pipelin object
+        model_filepath -> destination path to save .pkl file    
+    """
+    pickle.dump(model, open(model_filepath, 'wb'))
 
 def main():
     if len(sys.argv) == 3:
