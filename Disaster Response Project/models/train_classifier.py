@@ -137,6 +137,44 @@ def build_model():
 
     return pipeline
 
+# Create a performance metric function to define in Grid Search scoring target
+def multioutput_fscore(y_true,y_pred,beta=1):
+    
+    """    
+    This function is a performance metric to define Grid Search scoring target   
+    It is a kind of geometric mean of the fbeta_score, computed on each label.
+
+    The objective here is to avoid issues when dealing with multi-class/multi-label imbalanced cases.
+             
+    Inputs:
+        y_true -> List of labels
+        y_prod -> List of predictions
+        beta -> Beta value to be used to calculate fscore metric
+    
+    Output:
+        f1score -> Calculation geometric mean of fscore
+    """
+    
+    # If y predictions is a dataframe, then extract and store the values
+    if isinstance(y_pred, pd.DataFrame) == True:
+        y_pred = y_pred.values
+    
+    # If y actuals is a dataframe, then extract and store the values
+    if isinstance(y_true, pd.DataFrame) == True:
+        y_true = y_true.values
+    
+    f1score_list = []
+    for column in range(0,y_true.shape[1]):
+        score = fbeta_score(y_true[:,column],y_pred[:,column],beta,average='weighted')
+        f1score_list.append(score)
+        
+    f1score = np.asarray(f1score_list)
+    f1score = f1score[f1score<1]
+    
+    # Get the geometric mean of f1score
+    f1score = gmean(f1score)
+    return f1score
+
 def evaluate_model(model, X_test, Y_test, category_names):
     pass
 
