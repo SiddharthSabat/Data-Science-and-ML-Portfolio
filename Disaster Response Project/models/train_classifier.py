@@ -1,4 +1,5 @@
 #import Libraries
+import sys
 import pandas as pd
 import numpy as np
 import re
@@ -176,7 +177,33 @@ def multioutput_fscore(y_true,y_pred,beta=1):
     return f1score
 
 def evaluate_model(model, X_test, Y_test, category_names):
-    pass
+    
+    """
+    Evaluate Model function
+    
+    This function applies a ML pipeline to a test set and prints out the model performance (accuracy and f1score)
+    
+    Arguments:
+        pipeline -> A valid scikit ML Pipeline
+        X_test -> Test features
+        Y_test -> Test labels
+        category_names -> label names (multi-output)
+    """
+    Y_pred = model.predict(X_test)
+    
+    multi_f1 = multioutput_fscore(Y_test,Y_pred, beta = 1)
+    overall_accuracy = (Y_pred == Y_test).mean().mean()
+
+    print('Average overall accuracy {0:.2f}%'.format(overall_accuracy*100))
+    print('F1 score (custom definition) {0:.2f}%'.format(multi_f1*100))
+
+    # Print the whole classification report.
+    Y_pred = pd.DataFrame(Y_pred, columns = Y_test.columns)
+    
+    for column in Y_test.columns:
+        print('Model Performance with Category: {}'.format(column))
+        print(classification_report(Y_test[column],Y_pred[column]))
+    
 
 
 def save_model(model, model_filepath):
