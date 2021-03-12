@@ -1,3 +1,16 @@
+"""
+ML Pipeline to Train Classifier
+Project: Disaster Response Pipeline (As part of Udacity Data Science Nanodegree Program)
+
+Sample Script Execution Command:
+>python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl (If running the command from project root directory assuming DisasterResponse.db file is saved in ./data directory)
+>python train_classifier.py ../data/DisasterResponse.db classifier.pkl (If running the command from project ./model directory, assuming DisasterResponse.db file is saved in ./data directory)
+
+Arguments:
+    1) Preprocesed SQLite Database file path saved after ETL pipeline process (DisasterResponse.db)
+    2) Name of ML model to export as a pickle file
+"""
+
 #import Libraries
 import sys
 import pandas as pd
@@ -219,7 +232,7 @@ def save_model(model, model_filepath):
 def main():
     if len(sys.argv) == 3:
         database_filepath, model_filepath = sys.argv[1:]
-        print('Loading data...\n    DATABASE: {}'.format(database_filepath))
+        print('Loading data...\n    DATABASE from location: {}'.format(database_filepath))
         X, Y, category_names = load_data(database_filepath)
         X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
         
@@ -227,23 +240,23 @@ def main():
         print('Building model...Started at:-', time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(start)))        
         model = build_model()
         end = time.time()
-        print('Building model completed at: {}. It took: {} seconds'.format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(end)),  round((end - start), 2)))       
+        print('Building model completed at:- {}. It took: {} seconds'.format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(end)),  round((end - start), 2)))       
         start = time.time()
         print('Training model...Started at:-', time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(start)))
         model.fit(X_train, Y_train)
         end = time.time()
-        print('Training model completed at: {}. It took: {} seconds'.format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(end)),  round((end - start), 2)))
+        print('Training model completed at:- {}. It took: {} seconds'.format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(end)),  round((end - start), 2)))
         
         start = time.time()
         print('Evaluating model...Started at:-', time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(start)))
         evaluate_model(model, X_test, Y_test, category_names)
         end = time.time()
-        print('Evaluating model completed at: {}. It took: {} seconds'.format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(end)),  round((end - start), 2)))
+        print('Evaluating model completed at:- {}. It took: {} seconds'.format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(end)),  round((end - start), 2)))
         
-        print('Saving model...\n    MODEL: {}'.format(model_filepath))
+        print('Saving model...\n    MODEL saved to location: {}'.format(model_filepath))
         save_model(model, model_filepath)
 
-        print('Trained model saved!')
+        print('Trained model saved successfully!')
 
     else:
         print('Please provide the filepath of the disaster messages database '\

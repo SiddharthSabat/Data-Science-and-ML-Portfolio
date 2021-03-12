@@ -1,14 +1,15 @@
 """
-DAYA PRE-PROCESSING
-Disaster Response Pipeline Project as part of Udacity Data Science Nanodegree program.
+ETL Pipeline for Data Pre Processing and Saving data to DB
+Project: Disaster Response Pipeline (As part of Udacity Data Science Nanodegree program).
 
 Sample Script Execution Command:
-> python process_data.py disaster_messages.csv disaster_categories.csv DisasterResponse.db
+>python process_data.py disaster_messages.csv disaster_categories.csv DisasterResponse.db (If running the command from project ./data directory)
+>python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db (If running the command from project root directory)
 
 Arguments:
-    1) 1st CSV file containing the messages data (disaster_messages.csv)
-    2) 2nd CSV file containing categories data (disaster_categories.csv)
-    3) SQLite destination database (DisasterResponse.db)
+    1) 1st CSV file containing the messages data (disaster_messages.csv) as the first argument
+    2) 2nd CSV file containing categories data (disaster_categories.csv) as the second argument
+    3) SQLite destination database (DisasterResponse.db) as the third argument
 """
 
 import sys
@@ -117,10 +118,10 @@ def main():
         print('Cleaning data...')
         df = clean_data(df)
         
-        print('Saving data...\n    DATABASE: {}'.format(database_filepath))
+        print('Saving data...\n    DATABASE saved to location: {}'.format(database_filepath))
         save_data(df, database_filepath)
         
-        print('Cleaned data saved to database!')
+        print('Cleaned data saved to database successfully!')
     
     else:
         print('Please provide the filepaths of the messages and categories '\
