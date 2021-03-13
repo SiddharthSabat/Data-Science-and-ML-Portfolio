@@ -32,7 +32,7 @@ This project is divided in below 3 sections:
 
 Here is an overview of the web interface running on http://localhost:3001/
 
-![Intro Pic](screenshots/Home.png)
+![Intro Pic](screenshots/Home.PNG)
 
 
 <a name="Getting_Started"></a>
