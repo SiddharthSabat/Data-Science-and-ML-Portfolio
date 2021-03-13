@@ -49,12 +49,12 @@ def tokenize(text):
 
 # load data
 table_name = 'Disaster_response'
-engine = engine = create_engine('sqlite:///../data/DisasterResponse.db')
+engine = engine = create_engine('sqlite:///./data/DisasterResponse.db')
 df = pd.read_sql_table(table_name,engine)
 
 
 # load model
-model = joblib.load("../models/classifier.pkl")
+model = joblib.load("./models/classifier.pkl")
 
 
 # index webpage displays cool visuals and receives user input text for model
