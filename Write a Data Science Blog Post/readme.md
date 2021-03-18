@@ -137,6 +137,7 @@ Below python libraries are used as part of the project using Jupiter Notebook.
 
 * [Siddharth Sabat](https://github.com/siddharthsabat)
 * Link to clone the GitHub Repo is [here](https://github.com/SiddharthSabat/Data-Science-and-ML-Portfolio/tree/main/Write%20a%20Data%20Science%20Blog%20Post)
+* Blog post on this project can be checked on my medium platform [here](https://siddharthsabat.medium.com/a-data-analysis-of-airbnb-boston-listings-324de993ca9e)
 
 
 <a name="Acknowledgement"></a>
