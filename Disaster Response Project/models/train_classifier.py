@@ -149,7 +149,10 @@ def build_model():
         ('classifier', MultiOutputClassifier(AdaBoostClassifier()))
     ])
 
-    return pipeline
+    parameters = {'classifier__estimator__learning_rate': [0.01, 0.02, 0.05],
+                  'classifier__estimator__n_estimators': [10, 20, 40]}
+    cv = GridSearchCV(pipeline, param_grid=parameters, n_jobs=-1)
+    return cv
 
 # Create a performance metric function to define in Grid Search scoring target
 def multioutput_fscore(y_true,y_pred,beta=1):
