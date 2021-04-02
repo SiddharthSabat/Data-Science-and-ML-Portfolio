@@ -28,18 +28,39 @@ Every offer has a validity period before the offer expires. As an example, a BOG
 
 Also a transactional data is provided that contains user purchases made on the app including the timestamp of purchase and the amount of money spent on a purchase. This transactional data also has a record for each offer that a user receives as well as a record for when a user actually views the offer. There are also records for when a user completes an offer.
 
-A blog post for this project explaing the observations from all analysis is publihed on [Medium Platform](https://siddharthsabat.medium.com/analyze-customer-behavior-on-starbucks-rewards-mobile-app-and-predict-customer-response-to-an-offer-48b81200e8d1) 
+A blog post for this project explaining the observations from all analysis and about data modelling is publihed on [Medium Platform](https://siddharthsabat.medium.com/analyze-customer-behavior-on-starbucks-rewards-mobile-app-and-predict-customer-response-to-an-offer-48b81200e8d1) 
 
 <a name="motivation"></a>
 ## 2. Project Motivation
 
-Given the datasets below, the objective is to combine transaction, demographic and offer data to determine which demographic groups respond best to which offer reward, and to predict which users, who normally wouldn't make a purchase, would respond to a sent offer and make a purchase through it. This can be done by first answering a below questions:
+The problem statement that we will be looking to solve for the this project is to combine transaction, demographic and offer data and to analyze Starbucks rewards mobile app data on how users respond to different offers and predict whether a user will respond to an offer or not using the demographics and offer reward data.
 
-1.  What percentage of Customers view offers and find out their characteristics?
-2.  What percentage of Customers respond to offers and what percentage complete the offer after viewing it?
-3.  How much do adevertisements contribute in user transactions?
-4.  Predict whether a Customer will respond to an offer or not using demographics and offer reward data?
+Below are the problem statements for which we need to find the answer as part of this project:
 
+
+1. What percentage of offers viewed by the users from all the offers sent to them?
+
+2. How many offers from each offer type were sent to Customers?
+
+3. What percentage of Customers completed an offer after viewing it and what percentage of Customers completed an offer without viewing it?
+
+4. How many transactions were completed/influenced because of the sent offers?
+
+5. Find out the facts that are influenced by the offer?
+
+    a. how gender affects the amount spent in a transaction and which type of discount attracts which gender types.
+
+    b. find out the spread of data for amount spent by the users who completed the offer after viewing it and before it expires, and for users who didn’t complete the offer.
+        
+    c. analyze the correlation between Age Groups and Amount spent by customers for completed offers transactions with and without offers.
+
+    d. find the correlation between Customer Income and Amount Spent by customers for the transactions with and without completed offers.
+    
+    e. how age plays a role in responding to offer rewards.
+    
+6. How customers responded to offers for the different advertisement channels used for both completed and uncomplete offers?
+
+7. Predict whether a customer will respond to an offer or not using RandomForestClassifier and LinearSVC.
 
 <a name="Libraries"></a>
 ## 3 Libraries Used
@@ -85,23 +106,43 @@ Given the datasets below, the objective is to combine transaction, demographic a
 <a name="Conclusion"></a>
 ## 7. Conclusion
 
-Based on the analysis and exploration done, how customer demographics and the offer reward affect their response to offers or advertisements sent are identified. 
+## Justification
 
-First, we identified users who don't prefer to share their personal information, and we classified them into a separate group who provided the personal info. There are 13% of the total users who have prefered not to share their personal info. This helped us identify accurately the gender distribution in the dataset. We saw that males take up 57% of total users and females take up 41%, leaving 1% for others.
+Based on the analysis and exploration done, we identified how customer demographics and the offer rewards affect user response to offers/advertisements sent through various visualization.
 
-Next we observed that the majority of users are in their late 50's or eary 60's, and that the number of users decreases as we move away from the peak. And age doesn't affect the user attraction towards certain offer rewards. However, it was seen that the average amount spent per transaction increases as user age increases.
+First, we identified users for whom there are demographic information was missing, and we classified them into a separate group. There are 13% of the total users for which there is no demographic info available in the dataset. This helped us identify accurately the gender distribution in the dataset. We saw that males take up 57% of total users and females take up 41%, leaving 1% for others.
 
-Many users have an annual income in the range between 30000 USD and 50000 USD, but the majority are in the range between 50000 USD and 75000 USD, and of course less users have high annual salary. The amount spent per transaction is more when the user income is more, which is expected.
 
-After that we saw that 75% of all the received offers were actually viewed, and that 71% of users complete offers after they view them leaving 29% completing offers unintentionally.
+Then we saw income distribution for the users. Data suggests many users have an annual income in the range between 30000 USD and 50000 USD and majority of the customers having income in the range between 50000 USD to 75000 USD. 
 
-It was seen that offers influence 19% of the total transactions or completed offers that occured, which is pretty big, and that users are 7% more likely to respond to offers when they are sent through social media.
+Then we saw distribution of offer type events. Data contains 55% of records as  offer type events and 45% records are of transactions type data.
 
-We saw how gender plays role in the average amount spent by a user, and also in responding to which type of offer reward. Males responded more to the 2, 3, and 5 dollar rewards while females respond more to the 10 dollar rewards, and on average, females spend more than males.
+After that we identified the breakdown for no of offers sent to customers. Almost same number of Buy 1 Get 1 and Discount offers were sent to users which is almost double the number of total Advertisement offers sent.
 
-People who chose to stay anonymous tend to spend more per transaction in the group that responded to offers, however, for the other group it's completely the opposite, known users spend a lot more than anonymous users.
+Then we identified , out of total 76277 offers sent, 57725 offers were viewed by the users which is 75.68% of offers that is viewed by users from all the offers sent to them. And 71% of completed offers were made after users viewed them leaving 29% completed the offers without viewing it.
 
-Finally, we built a model that predicts whether a user will respond to an offer or not based of demographics and offer reward, and the model predicted this with an accuracy of 87%, a F1-score of 0.65 for identifing those who will repond to offers, and an F1-score of 0.92 for those who won't.
+
+After that from many of the visualization techniques, we derived the facts that are influenced by the offer such as 
+
+    a. how gender affects the amount spent in a transaction and which type of discount attracts which gender types.
+
+    b. spread of data for amount spent by users who completed the offer after viewing it and before it expires and for users who didn't complete the offer.
+
+    c. correlation between Age Groups and Amount spent by customers for the transactions with and without completed offers.
+
+    d. find the correlation between Customer Income and Amount Spent by customers for the transactions with and without completed offers.
+
+    e. how age plays a role in responding to offer rewards.
+
+Then, we identified how customers responded to offers for the different advertisement channels used for both completed and uncomplete offers
+
+Finally, we trained two supervised classification models that predicts whether an user will respond to an offer or not based on demographics and offer reward data. Both the models predicted user responses with an accuracy of 87%, F1-score of 0.93 by both models for those who won't respond to an offer, F1-score of 0.69 and 0.70 for identifying those who will respond to offers by RandomForestClassifier and LinearSVC respectively.
+
+Random Forest creates as many trees on the subset of the data and combines the output of all the trees to reduces overfitting problem in decision trees and also reduces the variance and therefore improves the accuracy, hence this algorithm is chosen as one of the modelling technique for this project.
+
+Since Linear SVC classifier is relatively faster and takes just one parameter to tune, hence we selected LinearSVC as our second modelling technique to predict user response as part of this project.
+
+Since the f1-score and accuracy for both RandomForestClassifier and LinearSVC models are pretty much the same when tuned with the GridSearchCV, and since RandomForestClassifier is taking much time (around 1100 seconds) compared to LinearSVC when training the model, we can go ahead with the LinearSVC as our final model implementation to predict the user responses towards offer rewards.
 
 <a name="Reflection"></a>
 ### Reflection
