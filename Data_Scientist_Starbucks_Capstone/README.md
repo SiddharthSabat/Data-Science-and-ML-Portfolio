@@ -18,7 +18,7 @@
 <a name="overview"></a>
 ###  1. Project Overview
 
-The objective of this project is to do a detailed analysis of the simulated data provided by Udacity (simplified version of the real Starbucks app data) that mimics customer behavior on the Starbucks rewards mobile app, along with a machine learning model that predicts whether a customer will respond to an offer sent to respective users. 
+The objective of this project is to do a detailed analysis of real Starbucks rewards mobile app data which mimics customer behavior, demographics and transactions info to find out the facts that are influenced by an offer, percentage of customers completed an offer after viewing it and customer response towards different advertisement channels for completing an offer. Then build a Supervised machine learning classifier model to predict whether a new user will respond to an offer or not by utilizing combined transaction, demographic and offer data. 
 
 Once every few days, Starbucks sends out an offer to its users' mobile app. An offer can be merely an advertisement for a drink or an actual offer such as a discount or BOGO (buy one get one free). Some users might not receive any offer during certain weeks. ALso, not all users receive the same offer, and that is the challenge to solve with this data set.
 
